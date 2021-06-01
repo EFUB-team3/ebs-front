@@ -1,0 +1,15 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f2f4f7;
+}
+
+input {
+  width: 100%;
+  padding: 10px 10px;
+  font-size: 28px;
+  color: #646a6e;
+  font-weight: 540;
+  /*폰트 적용 필요*/
+}
+
