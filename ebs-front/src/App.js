@@ -55,24 +55,20 @@ const Navigation = styled.div`
 `
 
 const Menu = styled.a`
-  background-color: #e0e0e0;
+  background-color: ${(props) => (props.active ? "#4E81C0" : "#e0e0e0")};
+  color: ${(props) => (props.active ? "white" : "#55585c")};
   border-radius: 30px;
   height:40px;
   width: 160px;
   outline: none;
-  border: 1px solid lightgray;
+  border: 1px solid #cccccc;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 18px;
   line-height: 25px;
-  color: #55585c;
   text-decoration: none;
   margin-bottom: 10px;
-  :active{
-    background-color: #4E81C0;
-    color: white;
-  }
 `
 
 class App extends React.Component {
@@ -142,9 +138,9 @@ class App extends React.Component {
         <Navigation>
           <div id="notice" style={{display: "flex"}}>
             <Wrapper>
-              <Menu id='target0' onClick={()=>this.menuChange(0)}>서비스 공지</Menu>
-              <Menu id='target1' onClick={()=>this.menuChange(1)}>편성 공지</Menu>
-              <Menu id='target2' onClick={()=>this.menuChange(2)}>EBS 공고</Menu>
+              <Menu active={this.state.menu === 0} href="#this" onClick={()=>this.menuChange(0)}>서비스 공지</Menu>
+              <Menu active={this.state.menu === 1} href="#this" onClick={()=>this.menuChange(1)}>편성 공지</Menu>
+              <Menu active={this.state.menu === 2} href="#this" onClick={()=>this.menuChange(2)}>EBS 공고</Menu>
             </Wrapper>
             <Wrapper style={{width: "330px"}}>
               <ul>
