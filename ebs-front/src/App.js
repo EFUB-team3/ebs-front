@@ -1,7 +1,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
-// import axios from "axios";
+import axios from "axios";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 import styled from "styled-components";
+import image1 from "./assets/image1.png";
+import image2 from "./assets/image2.png";
 import adban from "./assets/adban.png";
 import soluni from "./assets/soluni.png";
 import Header from "./components/Header";
@@ -71,6 +76,14 @@ const Menu = styled.a`
   margin-bottom: 10px;
 `
 
+const StyledSlider = styled(Slider)`
+    .slick-slide div{
+      outline: none; // 슬라이드 클릭시 파란선을 제거하기 위해서 작성
+      width: 1000px;
+      height: 100px;
+    }
+`;
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -88,21 +101,43 @@ class App extends React.Component {
     this.setState({menu: change})
   }
 
-  // getCategory = async () => {
-  //   try{
-  //     const { cards } = await axios.get("https://localhost:8082/category");
-  //     this.setState({ cards });
-  //   }
-  //   catch(e){
-  //     console.log("getCategroy error");
-  //   }
-  // }
+  getCategory = async () => {
+    try{
+      const { cards } = await axios.get("https://localhost:8082/category");
+      this.setState({ cards });
+      console.log(this.state.cards);
+    }
+    catch(e){
+      console.log("getCategroy error");
+    }
+  }
 
-  // componentDidMount() {
-  //   this.getCategory();
-  // }
+  getContents = async () => {
+    try{
+      const { imgCards } = await axios.get("https://localhost:8082/contents");
+      this.setState({ imgCards });
+      console.log(this.state.imgCards);
+    }
+    catch(e){
+      console.log("getContents error");
+    }
+  }
+
+  componentDidMount() {
+    this.getCategory();
+    this.getContents();
+  }
 
   render() {
+    const settings = {
+      autoplay: true,
+      dots: true,
+      infinite: true,
+      speed: 10,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      arrows: false
+    };
     const {imgCards, cards, menu} = this.state;
     const contents = {
       0: this.state.notice_1,
@@ -133,6 +168,16 @@ class App extends React.Component {
               ))}
             </CardWrapper>
           </Container>
+          <div style={{width:"450px", height:"140px"}}>
+              <StyledSlider {...settings} >
+                <div>
+                  <img src={image1} alt="image1" style={{height:"120px", width:"450px"}}></img>
+                </div>
+                <div>
+                  <img src={image2} alt="image2" style={{height:"120px", width:"450px"}}></img>
+                </div>
+              </StyledSlider>
+          </div>
           <img src={adban} width='1000px' height='100px' alt='adban' style={{marginTop:"40px", marginBottom:"25px"}}></img>
         </Center>
         <Navigation>
