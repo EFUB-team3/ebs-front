@@ -41,7 +41,7 @@ const Button2 = styled.button`
   border: none;
 `
 
-const ImgCard = () => {
+const Header = () => {
     return (
         <div>
         <Header1>
@@ -68,4 +68,4 @@ const ImgCard = () => {
     );
 }
 
-export default ImgCard
+export default Header
