@@ -4,7 +4,7 @@ import styled from "styled-components";
 const CardContent = styled.a`
   background: #FFFFFF;
   border-radius: 10px;
-  height:85px;
+  height:80px;
   width: 190px;
   outline: none;
   border: none;

@@ -1,12 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
+import https from 'https';
 import axios from "axios";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
 import styled from "styled-components";
-import image1 from "./assets/image1.png";
-import image2 from "./assets/image2.png";
+import image from "./assets/image.png";
 import adban from "./assets/adban.png";
 import soluni from "./assets/soluni.png";
 import Header from "./components/Header";
@@ -37,17 +34,38 @@ const Container = styled.div`
   margin-top:50px;
 `
 
+const Bookgoing = styled.a`
+  background-color: #004068;
+  color: white;
+  border-radius: 12px;
+  box-shadow: 0px 5px 10px 0px rgba(97,97,97,0.25);
+  height:160px;
+  width: 200px;
+  outline: none;
+  border: none;
+  display: flex;
+  flex-direction: column ;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+`
+
 const ImgCardWrapper = styled.div`
     display: grid;
     grid-template-columns: 220px 220px 220px 220px;
-    grid-template-rows: 180px 180px 180px;
+    grid-template-rows: 180px 180px
+`
+const ImgCardWrapper2 = styled.div`
+    display: grid;
+    grid-template-columns: 440px 220px 220px;
+    grid-template-rows: 190px;
 `
 
 const CardWrapper = styled.div`
   display: grid;
   margin-left: 20px;
-  grid-template-columns: 200px 200px;
-	grid-template-rows: 95px 95px 95px 95px 95px 95px;
+  grid-template-columns: 198px 208px;
+  grid-template-rows: 88px 88px 88px 88px 88px 88px;
 `
 
 const Navigation = styled.div`
@@ -76,69 +94,92 @@ const Menu = styled.a`
   margin-bottom: 10px;
 `
 
-const StyledSlider = styled(Slider)`
-    .slick-slide div{
-      outline: none; // 슬라이드 클릭시 파란선을 제거하기 위해서 작성
-      width: 1000px;
-      height: 100px;
-    }
-`;
+const AdImage = styled.a`
+    background-image: url(${image});
+    background-position: center;
+    background-size: 100%;
+    border-radius: 12px;
+    height:160px;
+    width: 420px;
+    outline: none;
+    border: none;
+    display: flex;
+    margin: 0;
+`
+
+const agent = new https.Agent({
+  rejectUnauthorized: false
+});
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      imgCards: [{on_img:"https://static.ebs.co.kr/images/public/2020/12/30/10/55/0/a12830b1-2348-4fa2-873b-13a722b00335.png", off_img:"https://static.ebs.co.kr/images/public/2020/12/30/10/55/0/32d5e153-e3e3-483d-9220-1b9db4e4d0ca.png", description:"EBS 명품 다큐멘터리"}],
-      cards: [{name:"초등", link:"http://ebs.co.kr"}],
-      notice_1: [{article:"1-1번 글"}, {article:"1-2번 글"}, {article:"1-3번 글"}, {article:"1-4번 글"}, {article:"1-5번 글"}],
-      notice_2: [{article:"2-1번 글"}, {article:"2-2번 글"}, {article:"2-3번 글"}, {article:"2-4번 글"}, {article:"2-5번 글"}],
-      notice_3: [{article:"3-1번 글"}, {article:"3-2번 글"}, {article:"3-3번 글"}, {article:"3-4번 글"}, {article:"3-5번 글"}],
-      menu: 0
+      imgCards: [], cards: [], prev: [], bookgoing: [], next: [],
+      notice_1: [], notice_2: [], notice_3: [], menu: 0
     }
   }
-  
-  menuChange = (change) => {
-    this.setState({menu: change})
-  }
-
+  menuChange = (change) => {this.setState({menu: change})}
   getCategory = async () => {
     try{
-      const { cards } = await axios.get("https://localhost:8082/category");
+      const {data:cards} = await axios.get("http://localhost:8082/category", {httpsAgent: agent});
       this.setState({ cards });
-      console.log(this.state.cards);
     }
     catch(e){
       console.log("getCategroy error");
     }
   }
-
   getContents = async () => {
     try{
-      const { imgCards } = await axios.get("https://localhost:8082/contents");
-      this.setState({ imgCards });
-      console.log(this.state.imgCards);
+      const { data:imgCards } = await axios.get("http://localhost:8082/contents", {httpsAgent: agent});
+      const prev = imgCards.filter(imgCard => imgCard.id < 9 );
+      const bookgoing = imgCards.filter(imgCard => imgCard.id === 9 );
+      const next = imgCards.filter(imgCard => imgCard.id > 9 );
+      this.setState({prev});
+      this.setState({bookgoing});
+      this.setState({next});
     }
     catch(e){
       console.log("getContents error");
     }
   }
-
+  getNotice1 = async () => {
+    try{
+      const { data:notice_1 } = await axios.get("http://localhost:8082/notice1", {httpsAgent: agent});
+      this.setState({ notice_1 });
+    }
+    catch(e){
+      console.log("getNotice1 error");
+    }
+  }
+  getNotice2 = async () => {
+    try{
+      const { data:notice_2 } = await axios.get("http://localhost:8082/notice2", {httpsAgent: agent});
+      this.setState({ notice_2 });
+    }
+    catch(e){
+      console.log("getNotice2 error");
+    }
+  }
+  getNotice3 = async () => {
+    try{
+      const { data:notice_3 } = await axios.get("http://localhost:8082/notice3", {httpsAgent: agent});
+      this.setState({ notice_3 });
+    }
+    catch(e){
+      console.log("getNotice3 error");
+    }
+  }
   componentDidMount() {
     this.getCategory();
     this.getContents();
+    this.getNotice1();
+    this.getNotice2();
+    this.getNotice3();
   }
 
   render() {
-    const settings = {
-      autoplay: true,
-      dots: true,
-      infinite: true,
-      speed: 10,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      arrows: false
-    };
-    const {imgCards, cards, menu} = this.state;
+    const {cards, prev, next, menu, bookgoing} = this.state;
     const contents = {
       0: this.state.notice_1,
       1: this.state.notice_2,
@@ -150,15 +191,35 @@ class App extends React.Component {
         <Center>
           <Input/>
           <Container>
-            <ImgCardWrapper>
-              {imgCards.map(card => (
-                <ImgCard
-                  off_img={card.off_img}
-                  on_img={card.on_img}
-                  description={card.description}
-                />
-              ))}
-            </ImgCardWrapper>
+            <Wrapper>
+              <ImgCardWrapper>
+                {prev.map(imgCard => (
+                  <ImgCard
+                    link={imgCard.link}
+                    off_img={imgCard.off_img}
+                    on_img={imgCard.on_img}
+                    description={imgCard.description}
+                  />
+                ))}
+              </ImgCardWrapper>
+              <ImgCardWrapper2>
+                <AdImage/>
+                {bookgoing.map(book => (
+                  <Bookgoing href={book.link}>
+                    <img src={book.off_img} alt={book.description} style={{marginBottom:"20px"}}></img>
+                    {book.description}
+                  </Bookgoing>
+                ))}
+                {next.map(imgCard => (
+                  <ImgCard
+                    link={imgCard.link}
+                    off_img={imgCard.off_img}
+                    on_img={imgCard.on_img}
+                    description={imgCard.description}
+                  />
+                ))}
+              </ImgCardWrapper2>
+            </Wrapper>
             <CardWrapper>
               {cards.map(card => (
                 <Card
@@ -168,29 +229,19 @@ class App extends React.Component {
               ))}
             </CardWrapper>
           </Container>
-          <div style={{width:"450px", height:"140px"}}>
-              <StyledSlider {...settings} >
-                <div>
-                  <img src={image1} alt="image1" style={{height:"120px", width:"450px"}}></img>
-                </div>
-                <div>
-                  <img src={image2} alt="image2" style={{height:"120px", width:"450px"}}></img>
-                </div>
-              </StyledSlider>
-          </div>
           <img src={adban} width='1000px' height='100px' alt='adban' style={{marginTop:"40px", marginBottom:"25px"}}></img>
         </Center>
         <Navigation>
-          <div id="notice" style={{display: "flex"}}>
+          <div style={{display: "flex"}}>
             <Wrapper>
               <Menu active={this.state.menu === 0} href="#this" onClick={()=>this.menuChange(0)}>서비스 공지</Menu>
               <Menu active={this.state.menu === 1} href="#this" onClick={()=>this.menuChange(1)}>편성 공지</Menu>
               <Menu active={this.state.menu === 2} href="#this" onClick={()=>this.menuChange(2)}>EBS 공고</Menu>
             </Wrapper>
-            <Wrapper style={{width: "330px"}}>
+            <Wrapper style={{width: "340px"}}>
               <ul>
                 {contents[menu].map(content => (
-                  <li>{content.article}</li>
+                  <li>{content.title.length>20?content.title.slice(0,22)+"···":content.title}</li>
                 ))}
               </ul>
             </Wrapper>
