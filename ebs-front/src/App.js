@@ -122,7 +122,7 @@ class App extends React.Component {
   menuChange = (change) => {this.setState({menu: change})}
   getCategory = async () => {
     try{
-      const {data:cards} = await axios.get("http://localhost:8082/category", {httpsAgent: agent});
+      const {data:cards} = await axios.get("http://52.79.86.165/category", {httpsAgent: agent});
       this.setState({ cards });
     }
     catch(e){
@@ -131,7 +131,7 @@ class App extends React.Component {
   }
   getContents = async () => {
     try{
-      const { data:imgCards } = await axios.get("http://localhost:8082/contents", {httpsAgent: agent});
+      const { data:imgCards } = await axios.get("http://52.79.86.165/contents", {httpsAgent: agent});
       const prev = imgCards.filter(imgCard => imgCard.id < 9 );
       const bookgoing = imgCards.filter(imgCard => imgCard.id === 9 );
       const next = imgCards.filter(imgCard => imgCard.id > 9 );
@@ -145,7 +145,7 @@ class App extends React.Component {
   }
   getNotice1 = async () => {
     try{
-      const { data:notice_1 } = await axios.get("http://localhost:8082/notice1", {httpsAgent: agent});
+      const { data:notice_1 } = await axios.get("http://52.79.86.165/notice1", {httpsAgent: agent});
       this.setState({ notice_1 });
     }
     catch(e){
@@ -154,7 +154,7 @@ class App extends React.Component {
   }
   getNotice2 = async () => {
     try{
-      const { data:notice_2 } = await axios.get("http://localhost:8082/notice2", {httpsAgent: agent});
+      const { data:notice_2 } = await axios.get("http://52.79.86.165/notice2", {httpsAgent: agent});
       this.setState({ notice_2 });
     }
     catch(e){
@@ -163,7 +163,7 @@ class App extends React.Component {
   }
   getNotice3 = async () => {
     try{
-      const { data:notice_3 } = await axios.get("http://localhost:8082/notice3", {httpsAgent: agent});
+      const { data:notice_3 } = await axios.get("http://52.79.86.165/notice3", {httpsAgent: agent});
       this.setState({ notice_3 });
     }
     catch(e){
