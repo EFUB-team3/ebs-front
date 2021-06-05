@@ -1,26 +1,41 @@
 import React from "react";
 import styled from "styled-components";
 import menuImg from "../assets/menu.png";
-import epick from "../assets/epick.png";
 import logo from "../assets/logo.png";
 
-const Header1 = styled.div`
+const LeftWrapper = styled.div`
+  margin-left: 120px;
   background-color: #4E81C0;
   display: flex;
   flex-direction: row;
   width: 100%;
   justify-content: flex-start;
+`
+
+const RightWrapper = styled.div`
+  margin-right: 120px;
+  background-color: #4E81C0;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: flex-end;
+`
+
+const HeaderTop = styled.div`
+  background-color: #4E81C0;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
   height:47px;
 `
-const Header2 = styled.div`
+const HeaderBottom = styled.div`
   background-color: #4E81C0;
   display: flex;
   flex-direction: row;
   width: 100%;
-  justify-content: flex-start;
   height:93px;
 `
-const Button1 = styled.button`
+const ButtonTop = styled.button`
   margin-left: 10px;
   margin-top: 10px;
   font-size: 14px;
@@ -29,7 +44,7 @@ const Button1 = styled.button`
   background-color:#4E81C0;
   border: none;
 `
-const Button2 = styled.button`
+const ButtonBottom = styled.button`
   align-self: flex-end;
   margin-left: 12px;
   margin-bottom: 20px;
@@ -44,26 +59,33 @@ const Button2 = styled.button`
 const Header = () => {
     return (
         <div>
-        <Header1>
-          <Button1 style = {{marginLeft: '120px'}}><img src={menuImg} alt='menu'/></Button1>
-          <Button1>장애인 서비스</Button1>
-          <Button1>두리안(다문화)</Button1>
-          <Button1 style = {{marginLeft: "735px"}}>로그인</Button1>
-          <Button1 style>마이페이지</Button1>
-          <Button1>고객센터</Button1>
-          <Button1>연간권</Button1>
-        </Header1>
-
-        <Header2>
-          <Button2 style = {{marginLeft: "120px"}}>TV</Button2>
-          <Button2>라디오</Button2>
-          <Button2>뉴스</Button2>
-          <Button2><img src={epick} alt="epick"/></Button2>
-          <Button2 style={{marginLeft: "280px"}}><img src={logo} alt="logo"/></Button2>
-          <Button2 style={{marginLeft: "310px"}}>구독하기</Button2>
-          <Button2>이벤트</Button2>
-          <Button2>편성표</Button2>
-        </Header2>    
+        <HeaderTop>
+          <LeftWrapper>
+            <ButtonTop><img src={menuImg} alt='menu'/></ButtonTop>
+            <ButtonTop>장애인 서비스</ButtonTop>
+            <ButtonTop>두리안(다문화)</ButtonTop>
+          </LeftWrapper>
+          <RightWrapper>
+            <ButtonTop>로그인</ButtonTop>
+            <ButtonTop>마이페이지</ButtonTop>
+            <ButtonTop>고객센터</ButtonTop>
+            <ButtonTop>연간권</ButtonTop>
+          </RightWrapper>
+        </HeaderTop>
+        <HeaderBottom>
+          <LeftWrapper>
+            <ButtonBottom>TV</ButtonBottom>
+            <ButtonBottom>라디오</ButtonBottom>
+            <ButtonBottom>뉴스</ButtonBottom>
+            <ButtonBottom>ⓔ-Pick</ButtonBottom>
+          </LeftWrapper>
+          <ButtonBottom><img src={logo} alt="logo"/></ButtonBottom>
+          <RightWrapper>
+            <ButtonBottom>구독하기</ButtonBottom>
+            <ButtonBottom>이벤트</ButtonBottom>
+            <ButtonBottom>편성표</ButtonBottom>
+          </RightWrapper>
+        </HeaderBottom>    
         </div>
     );
 }
